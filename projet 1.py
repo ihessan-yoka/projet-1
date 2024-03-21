@@ -25,3 +25,28 @@ joueur2 = lancer_trois_fois()
 resultats_joueur = comparaison(joueur1, joueur2)
 print(joueur1, joueur2, resultats_joueur)
 
+def relancer_de(joueur):
+    choix = input("Voulez vous relancez un dé pour augmenter vos points ? (Oui/Non): ").lower()
+    if choix == "oui":
+        indice_de = int(input("Quel dé voulez vous relancer ? (1,2 ou 3): "))
+        nouveau_resultat = lancer_de()
+        if nouveau_resultat > joueur[indice_de] :
+            joueur[indice_de] = nouveau_resultat
+            print("Dé relancer avec succès. Nouveaux dés:", joueur)
+        else:
+            print("Vous avez obtenu un résultat inférieur ou égal. Vous perdez des points !")
+            joueur[indice_de] = nouveau_resultat
+            print("Nouveaux dés:", joueur)
+        print("Vous avez choisi de ne rien changer.")
+            
+            
+joueur1 = lancer_trois_fois()
+joueur2 = lancer_trois_fois()
+
+print("Joueur 1:", joueur1)
+print("Joueur 2:", joueur2)
+
+relancer_de(joueur1)
+relancer_de(joueur2)
+
+resulats_joueur = comparaison(joueur1, joueur2)
