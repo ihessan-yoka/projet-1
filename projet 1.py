@@ -19,27 +19,19 @@ def lancer_de():
 def lancer_trois_fois():
     return [lancer_de() for _ in range(3)]
 
-joueur1 = lancer_trois_fois()
-joueur2 = lancer_trois_fois()
 
-resultats_joueur = comparaison(joueur1, joueur2)
-print(joueur1, joueur2, resultats_joueur)
-
-def relancer_de(joueur):
-    choix = input("Voulez vous relancez un dé pour augmenter vos points ? (Oui/Non): ").lower()
-    if choix == "oui":
-        indice_de = int(input("Quel dé voulez vous relancer ? (1,2 ou 3): "))
-        nouveau_resultat = lancer_de()
-        if nouveau_resultat > joueur[indice_de] :
-            joueur[indice_de] = nouveau_resultat
-            print("Dé relancer avec succès. Nouveaux dés:", joueur)
-        else:
-            print("Vous avez obtenu un résultat inférieur ou égal. Vous perdez des points !")
-            joueur[indice_de] = nouveau_resultat
-            print("Nouveaux dés:", joueur)
-        print("Vous avez choisi de ne rien changer.")
+def relancer_de(nom_joueur, joueur):
+    indice_de = int(input(nom_joueur+" quel dé voulez vous relancer ? (1,2 ou 3): "))
+    nouveau_resultat = lancer_de()
+    if nouveau_resultat > joueur[indice_de-1] :
+        joueur[indice_de-1] = nouveau_resultat
+        print("Dé relancer avec succès. Nouveaux dés:", joueur)
+    else:
+        print("Vous avez obtenu un résultat inférieur ou égal. Vous perdez des points !")
+        joueur[indice_de-1] = nouveau_resultat
+        print("Nouveaux dés:", joueur)
+    
             
-
 def annoncer_gagnant(resultat, nom_joueur1, nom_joueur2):
     if resultat == 1:
         print(f"{nom_joueur1} remporte la victoire ! Félicitations !")
@@ -49,17 +41,27 @@ def annoncer_gagnant(resultat, nom_joueur1, nom_joueur2):
         print("C'est une égalité ! Personne ne gagne cette fois-ci")
 
 # Code principal
+
 nom_joueur1 = input("Joueur 1, Veuillez entrer votre nom: ")
 nom_joueur2 = input("Joueur 2, Veuillez entrer votre nom: ")
 
 joueur1 = lancer_trois_fois()
 joueur2 = lancer_trois_fois()
 
+resultats_joueur = comparaison(joueur1, joueur2)
+print(joueur1, joueur2, resultats_joueur)
+
 print(f"{nom_joueur1}: {joueur1}")
 print(f"{nom_joueur2}: {joueur2}")
 
-relancer_de(joueur1)
-relancer_de(joueur2)
+relancer_de(nom_joueur1, joueur1)
+relancer_de(nom_joueur2, joueur2)
 
 resultats_joueur = comparaison(joueur1, joueur2)
 annoncer_gagnant(resultats_joueur, nom_joueur1, nom_joueur2)
+    
+
+        
+        
+
+
