@@ -32,36 +32,63 @@ def relancer_de(nom_joueur, joueur):
         print("Nouveaux dés:", joueur)
     
             
-def annoncer_gagnant(resultat, nom_joueur1, nom_joueur2):
+def annoncer_gagnant_manche(resultat, nom_joueur1, nom_joueur2):
     if resultat == 1:
-        print(f"{nom_joueur1} remporte la victoire ! Félicitations !")
-    elif resultat ==2:
-        print(f"Bravo ! {nom_joueur2} est le grand gagnant !")
+        print(f"{nom_joueur1} remporte la manche !")
+    elif resultat == 2:
+        print(f"Bravo ! {nom_joueur2} remporte la manche !")
     else:
-        print("C'est une égalité ! Personne ne gagne cette fois-ci")
-
+        print("C'est une égalité ! Personne ne remporte cette manche.")
+        
+def annoncer_gagnant_partie(points_joueur1, points_joueur2, nom_joueur1, nom_joueur2):
+    if points_joueur1 > points_joueur2:
+        print(f"{nom_joueur1} remporte la partie avec{points_joueur1} manches gagnées !")
+    elif points_joueur2 > points_joueur1:
+        print("f{nom_joueur2} remporte la partie avec manches {points_joueur2} gagnées !")
+        
+def jouer_manche(nom_joueur1, nom_joueur2):
+    joueur1 = lancer_trois_fois()
+    joueur2 = lancer_trois_fois()
+    
+    print(f"{nom_joueur1}: {joueur1}")
+    print(f"{nom_joueur2}: {joueur2}")
+    
+    relancer_de(nom_joueur1, joueur1)
+    relancer_de(nom_joueur2, joueur2)
+    
+    resultats_manche = comparaison(joueur1, joueur2)
+    annoncer_gagnant_manche(resultats_manche, nom_joueur1, nom_joueur2)
+    
+    return resultats_manche
+       
 # Code principal
 
 nom_joueur1 = input("Joueur 1, Veuillez entrer votre nom: ")
 nom_joueur2 = input("Joueur 2, Veuillez entrer votre nom: ")
 
-joueur1 = lancer_trois_fois()
-joueur2 = lancer_trois_fois()
+points_joueur1 = 0
+points_joueur2 = 0
 
-resultats_joueur = comparaison(joueur1, joueur2)
-print(joueur1, joueur2, resultats_joueur)
 
-print(f"{nom_joueur1}: {joueur1}")
-print(f"{nom_joueur2}: {joueur2}")
+for manche in range(3):
+  print(f"\nDébut de la manche {manche + 1}:")
+  resultats_manche = jouer_manche(nom_joueur1, nom_joueur2)
 
-relancer_de(nom_joueur1, joueur1)
-relancer_de(nom_joueur2, joueur2)
+if resultats_manche == 1:
+    points_joueur1 += 1
+elif resultats_manche == 2:
+    points_joueur2 += 1
+    
+print("\n----- Résultats Partiels -----")
+print(f"{nom_joueur1}: {points_joueur1} manches gagnées")
+print(f"{nom_joueur2}: {points_joueur2} manches gagnées")
+print("----------------------")
 
-resultats_joueur = comparaison(joueur1, joueur2)
-annoncer_gagnant(resultats_joueur, nom_joueur1, nom_joueur2)
+abandon = input("Voulez-vous abandonner la partie ? (Oui/Non): ")
+if abandon.lower() == "oui":
+    print("Partie abandonnée.")
     
 
-        
-        
+annoncer_gagnant_partie(points_joueur1, points_joueur2, nom_joueur1, nom_joueur2)
 
 
