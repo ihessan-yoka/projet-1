@@ -61,52 +61,60 @@ def jouer_manche(nom_joueur1, nom_joueur2):
     
     return resultats_manche
 
-#Ajout des fonctionnalité des power-ups
 def appliquer_power_up(nom_joueur, joueur):
-    power_ups = ["Double", "Relance gratuite"] # exemples de power-ups possibles
+    power_ups = ["Double", "Relance Gratuite"]  # Exemple de power-ups possibles
     power_up_obtenu = random.choice(power_ups)
     print(f"{nom_joueur} a obtenu le power-up : {power_up_obtenu} !")
     if power_up_obtenu == "Double":
-        joueur.append(6) # Ajoute un dé avec la valeur maximale pour doubler le score
-    elif power_up_obtenu == "Rlence gratuite":
-        lancer_extra = lancer_de() # Lance un dé supplémenataire
+        joueur.append(6)  # Ajoute un dé avec la valeur maximale pour doubler le score
+    elif power_up_obtenu == "Relance Gratuite":
+        lancer_extra = lancer_de()  # Lance un dé supplémentaire
         joueur.append(lancer_extra)
         print(f"{nom_joueur} a obtenu un {lancer_extra} lors de la relance gratuite !")
-       
+
+def jouer_manche(nom_joueur1, nom_joueur2):
+    joueur1 = lancer_trois_fois()
+    joueur2 = lancer_trois_fois()
+    print(f"{nom_joueur1}: {joueur1}")
+    print(f"{nom_joueur2}: {joueur2}")
+    
+    # Appliquer le power-up pour le joueur 1
+    appliquer_power_up(nom_joueur1, joueur1)
+    
+    # Appliquer le power-up pour le joueur 2
+    appliquer_power_up(nom_joueur2, joueur2)
+    
+    relancer_de(nom_joueur1, joueur1)
+    relancer_de(nom_joueur2, joueur2)
+    resultats_manche = comparaison(joueur1, joueur2)
+    annoncer_gagnant_manche(resultats_manche, nom_joueur1, nom_joueur2)
+    return resultats_manche
+
 # Code principal
-
-nom_joueur1 = input("Joueur 1, Veuillez entrer votre nom: ")
-nom_joueur2 = input("Joueur 2, Veuillez entrer votre nom: ")
-
+nom_joueur1 = input("Joueur 1, veuillez entrer votre nom : ")
+nom_joueur2 = input("Joueur 2, veuillez entrer votre nom : ")
 points_joueur1 = 0
 points_joueur2 = 0
 
-
 for manche in range(3):
-  print(f"\nDébut de la manche {manche + 1}:")
-resultats_manche = jouer_manche(nom_joueur1, nom_joueur2)
+    print(f"\nDébut de la manche {manche + 1}:")
+    resultats_manche = jouer_manche(nom_joueur1, nom_joueur2)
+    if resultats_manche == 1:
+        points_joueur1 += 1
+    elif resultats_manche == 2:
+        points_joueur2 += 1
 
-if resultats_manche == 1:
-    points_joueur1 += 1
-elif resultats_manche == 2:
-    points_joueur2 += 1
-    
 print("\n----- Résultats Partiels -----")
 print(f"{nom_joueur1}: {points_joueur1} manches gagnées")
 print(f"{nom_joueur2}: {points_joueur2} manches gagnées")
 
 print("\n----- Annonce du Gagnant -----")
 if points_joueur1 > points_joueur2:
-    print(f"{nom_joueur1}: {points_joueur1} manches gagnées")
-
-
-
-
-
-    
-
-annoncer_gagnant_partie(points_joueur1, points_joueur2, nom_joueur1, nom_joueur2)
-
+    print(f"{nom_joueur1} remporte la partie avec {points_joueur1} manches gagnées !")
+elif points_joueur2 > points_joueur1:
+    print(f"{nom_joueur2} remporte la partie avec {points_joueur2} manches gagnées !")
+else:
+    print("C'est une égalité ! Aucun joueur ne remporte la partie.")
 
 
 
